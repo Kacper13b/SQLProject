@@ -48,4 +48,42 @@ class Room(models.Model):
         return "Room No: "+ str(self.room_number) + " from hotel: " + str(self.hotel.hotel_name)
 
 
+class Bar(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    number_of_seats = models.IntegerField(blank=False)
+    number_of_employees = models.IntegerField(blank=False)
 
+    def __str__(self):
+        return "Bar No: "+ str(self.id) + " from hotel: " + str(self.hotel.hotel_name)
+
+
+class Restaurant(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    number_of_tables = models.IntegerField(blank=False)
+    number_of_seats = models.IntegerField(blank=False)
+    stars = models.IntegerField(blank=False)
+    kitchen_type = models.CharField(max_length=100, blank=False)
+
+    def __str__(self):
+        return str(self.kitchen_type) + " Restaurant No: "+ str(self.id) + " from hotel: " + str(self.hotel.hotel_name)
+
+
+class Team(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    department = models.CharField(max_length=100, blank=True)
+    number_of_employees = models.IntegerField(blank=False)
+
+    def __str__(self):
+        return "Working team no: "+ str(self.id) + " from hotel - " + str(self.hotel.hotel_name)
+
+
+class Employee(models.Model):
+    first_name = models.CharField(max_length=100, blank=False)
+    last_name = models.CharField(max_length=100, blank=False)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    salary = models.FloatField(blank=False)
+    date_of_employment = models.DateTimeField(auto_now_add=True, blank=False)
+
+    def __str__(self):
+        return "Employee no: "+ str(self.id) + " - " + str(self.first_name) + " " + str(self.last_name)
+    
