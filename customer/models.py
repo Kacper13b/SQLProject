@@ -1,5 +1,4 @@
 from django.db import models
-from hotel.models import Hotel, Room, Employee, Team
 
 class Customer(models.Model):
     passport_number = models.CharField(max_length=100, blank=False)
@@ -11,8 +10,20 @@ class Customer(models.Model):
     city = models.CharField(max_length=100, blank=False)
     postal_code = models.CharField(max_length=100, blank=False)
     country = models.CharField(max_length=100, blank=False)
-    room = models.ForeignKey(Room, blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.id) + ". " + str(self.first_name) + " " + str(self.last_name)
+
+
+class RoomReservation(models.Model):
+    arrival_date = models.DateTimeField(blank=False)
+    departure_date = models.DateTimeField(blank=False)
+    number_of_adults = models.IntegerField(blank=False)
+    number_of_children = models.IntegerField(blank=False)
+
+    def __str__(self):
+        return "Reservation no. " + str(self.id)
+
+
+
 
