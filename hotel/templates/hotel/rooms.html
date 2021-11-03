@@ -1,8 +1,35 @@
 {% extends "base.html" %}
 {% load thumbnail %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Rooms{% endblock %}
 
 
-{% block body %} 
+{% block body %}
+    {% for room in rooms %}
+    <main class="flex items-center p-10 pb-2 pt-2 w-full h-full bg-white">
+        <div class="border-t border-b pt-16 grid grid-cols-2 gap-8">
+            <div class="flex flex-col justify-start">
+                <div class="flex flex-col w-full object-cover h-5/6 justify-items-start border rounded-lg overflow-hidden"
+                    style="min-heigth:320px">
+                    {% thumbnail room.room_image "750x350" crop="center" as im %}
+                    <div class="w-full h-full object-cover" style="background-image: url('{{ im.url }}'); width: 750; height: 400px;"></div>
+                    {% endthumbnail %}
+                    <!-- <img class="w-full h-full object-cover" src='https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80' alt='nike shoes' > -->
+                </div>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex flex-col gap-4">
+                        <h1 class="capitalize text-4xl font-extrabold">Room number: {{room.room_number}} {{room.get_room_type_display}}</h1>
+                        <h2 class="text-3xl">${{room.price_per_night}}</h2>
+                        <p class="text-lg text-gray-500	">{{room.description}}</p>
+                        <div class="flex items-center gap-4 my-6 cursor-pointer ">
+                            <div class="bg-blue-600 px-5 py-3 text-white rounded-lg w-2/4 text-center">
+                                <a href="{% url 'hotel:reservation' room.id%}">Make reservation</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+    {% endfor %}
 {% endblock %}

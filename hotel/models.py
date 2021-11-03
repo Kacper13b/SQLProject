@@ -38,12 +38,13 @@ class Room(models.Model):
     )
 
 
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    hotel = models.ForeignKey(Hotel, related_name='rooms', on_delete=models.CASCADE)
     room_number = models.IntegerField(blank=False)
     room_type = models.CharField(max_length = 30, choices=ROOM_CHOICES, default='1')
     availability = models.BooleanField(default=False)
     price_per_night = models.IntegerField(blank=False)
     description = models.CharField(max_length=500, blank=True)
+    room_image = models.ImageField(upload_to="media", height_field=None, width_field=None, max_length=None, default='static/images/no.jpg')
     customer = models.ForeignKey(Customer, blank=True, null=True, on_delete=models.SET_NULL)
     reservation = models.ForeignKey(RoomReservation, blank=True, null=True, on_delete=models.SET_NULL)
     
