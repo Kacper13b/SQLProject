@@ -2,10 +2,12 @@ from django.contrib import admin
 from .models import Hotel, Room, Bar, Restaurant, Team, Employee
 
 class HotelAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('hotel_name', 'stars','country')
+    list_filter = ('hotel_name', 'stars','country')
 
 class RoomAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('room_number', 'room_type','availability', 'price_per_night')
+    list_filter = ('room_number', 'room_type','availability', 'price_per_night')
 
 class BarAdmin(admin.ModelAdmin):
     pass
