@@ -2,8 +2,8 @@ from django.contrib import admin
 from .models import Hotel, Room, Bar, Restaurant, Team, Employee
 
 class HotelAdmin(admin.ModelAdmin):
-    list_display = ('hotel_name', 'stars','country')
-    list_filter = ('hotel_name', 'stars','country')
+    list_display = ('id', 'hotel_name', 'stars','country')
+    list_filter = ('id', 'hotel_name', 'stars','country')
 
 class RoomAdmin(admin.ModelAdmin):
     list_display = ('room_number', 'room_type','availability', 'price_per_night')
