@@ -5,7 +5,8 @@ from .models import Hotel, Room
 from django.contrib.auth.mixins import LoginRequiredMixin
 from customer.models import *
 from .forms import ReservationForm, CustomerForm
-
+from django.http import Http404
+from django.shortcuts import render
 
 
 # def get_children_recursive(parent_category):
@@ -63,21 +64,78 @@ class ReservationView(FormView):
     model = Room
     template_name = 'hotel/reservation.html'
     form_class = ReservationForm
-    success_url = '/'
+    success_url = '/reservation/customer'
 
-    def get_queryset(self):
-        
+    def get_queryset(self):       
         room = Room.objects.get(id=self.kwargs['pk'])
         return room
 
     def form_valid(self, form):
         form.save()
         room = self.get_queryset()
-        room.availability = False
+        #room.availability = False
+        #room.reservation = form.save()
         room.save()
         return super().form_valid(form)
 
 class CustomerView(FormView):
-    template_name = 'hotel/customer.html'
+    model = Room
     form_class = CustomerForm
+    template_name = 'hotel/customer.html'
     success_url = '/'
+
+    def get_queryset(self):      
+        #room = ReservationView.get_queryset(ReservationView)
+        room = Room.objects.get(id=self.kwargs['pk'])
+        return room
+
+
+    def form_valid(self, form):
+        form.save()
+        room = self.get_queryset()
+        room.customer = form.save()
+        room.save()
+        return super().form_valid(form)
+
+class FormView(FormView):
+    template_name = 'hotel/test.html'
+    success_url = '/'
+
+    def get_object(self):
+        try:
+            obj = Room.objects.get(id=self.kwargs['pk'])
+        except Room.DoesNotExist:
+            raise Http404('Question not found!')
+        return obj
+
+    def get_context_data(self, **kwargs):
+        kwargs['room'] = self.get_object()
+        if 'reservation_form' not in kwargs:
+            kwargs['reservation_form'] = ReservationForm()
+        if 'customer_form' not in kwargs:
+            kwargs['customer_form'] = CustomerForm()
+
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        reservation_form = ReservationForm(request.POST)
+        customer_form = CustomerForm(request.POST)
+        ctxt = {}
+
+        if reservation_form.is_valid() and customer_form.is_valid():
+            reservation_form.save()
+            customer_form.save()
+            room = self.get_object()
+            room.availability = False
+            room.reservation = reservation_form.save()
+            room.customer = customer_form.save()
+            room.save()
+            return super().form_valid(reservation_form)
+        else:
+            ctxt['reservation_form'] = reservation_form
+            ctxt['customer_form'] = customer_form
+
+        return render(request, self.template_name, self.get_context_data(**ctxt))
