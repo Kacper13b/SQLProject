@@ -60,42 +60,42 @@ class HotelPage(ListView):
         return context
 
 
-class ReservationView(FormView):
-    model = Room
-    template_name = 'hotel/reservation.html'
-    form_class = ReservationForm
-    success_url = '/reservation/customer'
+# class ReservationView(FormView):
+#     model = Room
+#     template_name = 'hotel/reservation.html'
+#     form_class = ReservationForm
+#     success_url = '/reservation/customer'
 
-    def get_queryset(self):       
-        room = Room.objects.get(id=self.kwargs['pk'])
-        return room
+#     def get_queryset(self):       
+#         room = Room.objects.get(id=self.kwargs['pk'])
+#         return room
 
-    def form_valid(self, form):
-        form.save()
-        room = self.get_queryset()
-        #room.availability = False
-        #room.reservation = form.save()
-        room.save()
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.save()
+#         room = self.get_queryset()
+#         #room.availability = False
+#         #room.reservation = form.save()
+#         room.save()
+#         return super().form_valid(form)
 
-class CustomerView(FormView):
-    model = Room
-    form_class = CustomerForm
-    template_name = 'hotel/customer.html'
-    success_url = '/'
+# class CustomerView(FormView):
+#     model = Room
+#     form_class = CustomerForm
+#     template_name = 'hotel/customer.html'
+#     success_url = '/'
 
-    def get_queryset(self):      
-        #room = ReservationView.get_queryset(ReservationView)
-        room = Room.objects.get(id=self.kwargs['pk'])
-        return room
+#     def get_queryset(self):      
+#         #room = ReservationView.get_queryset(ReservationView)
+#         room = Room.objects.get(id=self.kwargs['pk'])
+#         return room
 
 
-    def form_valid(self, form):
-        form.save()
-        room = self.get_queryset()
-        room.customer = form.save()
-        room.save()
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.save()
+#         room = self.get_queryset()
+#         room.customer = form.save()
+#         room.save()
+#         return super().form_valid(form)
 
 class FormView(FormView):
     template_name = 'hotel/test.html'
