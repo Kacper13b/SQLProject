@@ -7,6 +7,7 @@ from customer.models import *
 from .forms import ReservationForm, CustomerForm, UserForm
 from django.http import Http404
 from django.shortcuts import render
+from django.contrib import messages
 
 
 # def get_children_recursive(parent_category):
@@ -133,9 +134,9 @@ class FormView(FormView):
         customer_form = CustomerForm(request.POST, instance=self.get_customer())
         user_form = UserForm(request.POST, instance=self.request.user)
         ctxt = {}
-        print(reservation_form.is_valid())
-        print(customer_form.is_valid())
-        print(user_form.is_valid())
+        # print(reservation_form.is_valid())
+        # print(customer_form.is_valid())
+        # print(user_form.is_valid())
         #customer_form.user = self.request.user
         if reservation_form.is_valid() and customer_form.is_valid() and user_form.is_valid():
             reservation_form.save()
@@ -147,6 +148,7 @@ class FormView(FormView):
             room.reservation = reservation_form.save()
             room.user = user_form.save()
             room.save()
+
             
             return super().form_valid(reservation_form)
         else:
