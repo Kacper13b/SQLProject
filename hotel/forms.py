@@ -1,7 +1,10 @@
 from .models import *
 from django import forms
 from customer.models import *
-
+from django import forms
+from django.forms import ModelForm
+from django.contrib.auth.forms import UserCreationForm
+from hotel.models import *
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -22,11 +25,14 @@ class ReservationForm(forms.ModelForm):
 
 
 class CustomerForm(forms.ModelForm):
-
+    
     class Meta:
         model = Customer
-        fields = ('first_name','last_name','email','telephone_number','passport_number','address','city','postal_code','country')
+        fields = ('telephone_number','passport_number','address','city','postal_code','country')
 
-        widgets = {
-            
-        }
+class UserForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+

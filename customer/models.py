@@ -1,4 +1,10 @@
 from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.db.models.signals import *
+
 
 class RoomReservation(models.Model):
     arrival_date = models.DateTimeField(blank=False)
@@ -24,20 +30,26 @@ class Bill(models.Model):
 
 
 class Customer(models.Model):
-    passport_number = models.CharField(max_length=100, blank=False)
-    first_name = models.CharField(max_length=100, blank=False)
-    last_name = models.CharField(max_length=100, blank=False)
-    email = models.CharField(max_length=100, blank=False)
-    telephone_number = models.IntegerField(blank=False)
-    address = models.CharField(max_length=100, blank=False)
-    city = models.CharField(max_length=100, blank=False)
-    postal_code = models.CharField(max_length=100, blank=False)
-    country = models.CharField(max_length=100, blank=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='customer', verbose_name='user')
+    passport_number = models.CharField(max_length=100, null=True)
+    telephone_number = models.IntegerField(null=True)
+    address = models.CharField(max_length=100, null=True)
+    city = models.CharField(max_length=100, null=True)
+    postal_code = models.CharField(max_length=100, null=True)
+    country = models.CharField(max_length=100, null=True)
     bill = models.ForeignKey(Bill, blank=True, null=True, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return str(self.id) + ". " + str(self.first_name) + " " + str(self.last_name)
 
+
+    def __str__(self):
+        return str(self.id) + ". " + self.user.username
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    """when user created create profile"""
+    if created:
+        Customer.objects.create(user=instance)
 
 
 class AdditionalService(models.Model):

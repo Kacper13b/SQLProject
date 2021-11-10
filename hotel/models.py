@@ -1,7 +1,7 @@
 from typing import Optional
 from django.db import models
 from django import forms
-from customer.models import Customer, RoomReservation
+from customer.models import Customer, RoomReservation, User
 
 
 ROOM_CHOICES =(
@@ -45,7 +45,7 @@ class Room(models.Model):
     price_per_night = models.IntegerField(blank=False)
     description = models.CharField(max_length=500, blank=True)
     room_image = models.ImageField(upload_to="media", height_field=None, width_field=None, max_length=None, default='static/images/no.jpg')
-    customer = models.ForeignKey(Customer, blank=True, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     reservation = models.ForeignKey(RoomReservation, blank=True, null=True, on_delete=models.SET_NULL)
     
 

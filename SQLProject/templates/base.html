@@ -41,6 +41,13 @@
                     Hotel Booking App
                 </div>
                 <ul class="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
+                    {% if request.user.is_authenticated %}
+                    <li>
+                        <a href="#" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
+                            <span>Hi {{user.username}}!</span>
+                        </a>
+                    </li>
+                    {% endif %}
                     <li>
                         <a href="/" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
                             <span>Home</span>
@@ -51,6 +58,19 @@
                             <span>Project info</span>
                         </a>
                     </li>
+                    {% if request.user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'account_logout' %}" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'account_login' %}" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
+                            <span>Login</span>
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
                 <div class="ml-auto md:hidden text-gray-500 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg>
