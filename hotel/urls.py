@@ -7,5 +7,7 @@ app_name = "hotel"
 urlpatterns = [
     path("", views.HomePage.as_view(), name='index'),
     path("<int:pk>/", views.HotelPage.as_view(), name='detail'),
-    path("<int:pk>/test", views.FormView.as_view(), name='test'),
+    path("<int:pk>/reservation", views.FormView.as_view(), name='reservation'),
+    path("my_reservations", views.MyReservationsView.as_view(), name='my_reservations'),
+
 ]
