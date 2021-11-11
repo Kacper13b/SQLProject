@@ -6,19 +6,7 @@ from django.dispatch import receiver
 from django.db.models.signals import *
 
 
-class RoomReservation(models.Model):
-    arrival_date = models.DateTimeField(blank=False)
-    departure_date = models.DateTimeField(blank=False)
-    number_of_adults = models.IntegerField(blank=False)
-    number_of_children = models.IntegerField(blank=False)
-
-    def __str__(self):
-        return "Reservation no. " + str(self.id)
-
-
 class Bill(models.Model):
-    reservation = models.OneToOneField(RoomReservation, on_delete=models.CASCADE)
-    total_room_price = models.FloatField(blank=False)
     restauration_bill = models.FloatField(blank=True)
     bar_bill = models.FloatField(blank=True)
     date_of_payment = models.DateTimeField(blank=False)
@@ -28,6 +16,16 @@ class Bill(models.Model):
     def __str__(self):
         return "Bill no. " + str(self.id)
 
+
+class RoomReservation(models.Model):
+    bill = models.OneToOneField(Bill, on_delete=models.CASCADE)
+    arrival_date = models.DateTimeField(blank=False)
+    departure_date = models.DateTimeField(blank=False)
+    number_of_adults = models.IntegerField(blank=False)
+    number_of_children = models.IntegerField(blank=False)
+
+    def __str__(self):
+        return "Reservation no. " + str(self.id)
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='customer', verbose_name='user')
