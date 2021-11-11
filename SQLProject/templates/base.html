@@ -53,11 +53,13 @@
                             <span>Home</span>
                         </a>
                     </li>
+                    {% if request.user.is_authenticated %}
                     <li>
-                        <a href="#" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
-                            <span>Project info</span>
+                        <a href="{% url 'hotel:my_reservations' %}" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
+                            <span>My reservations</span>
                         </a>
                     </li>
+                    {% endif %}
                     {% if request.user.is_authenticated %}
                     <li>
                         <a href="{% url 'account_logout' %}" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">

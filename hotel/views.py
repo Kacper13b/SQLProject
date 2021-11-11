@@ -61,46 +61,9 @@ class HotelPage(ListView):
         return context
 
 
-# class ReservationView(FormView):
-#     model = Room
-#     template_name = 'hotel/reservation.html'
-#     form_class = ReservationForm
-#     success_url = '/reservation/customer'
-
-#     def get_queryset(self):       
-#         room = Room.objects.get(id=self.kwargs['pk'])
-#         return room
-
-#     def form_valid(self, form):
-#         form.save()
-#         room = self.get_queryset()
-#         #room.availability = False
-#         #room.reservation = form.save()
-#         room.save()
-#         return super().form_valid(form)
-
-# class CustomerView(FormView):
-#     model = Room
-#     form_class = CustomerForm
-#     template_name = 'hotel/customer.html'
-#     success_url = '/'
-
-#     def get_queryset(self):      
-#         #room = ReservationView.get_queryset(ReservationView)
-#         room = Room.objects.get(id=self.kwargs['pk'])
-#         return room
-
-
-#     def form_valid(self, form):
-#         form.save()
-#         room = self.get_queryset()
-#         room.customer = form.save()
-#         room.save()
-#         return super().form_valid(form)
-
 
 class FormView(FormView):
-    template_name = 'hotel/test.html'
+    template_name = 'hotel/reservation.html'
     success_url = '/'
 
     def get_object(self):
@@ -140,7 +103,6 @@ class FormView(FormView):
         #customer_form.user = self.request.user
         if reservation_form.is_valid() and customer_form.is_valid() and user_form.is_valid():
             reservation_form.save()
-            #customer_form.user = self.request.user
             user_form.save()
             customer_form.save()
             room = self.get_object()
@@ -157,3 +119,29 @@ class FormView(FormView):
             ctxt['user_form'] = user_form
 
         return render(request, self.template_name, self.get_context_data(**ctxt))
+
+
+class MyReservationsView(ListView):
+    http_method_names = ['get']
+    template_name = 'hotel/my_reservations.html'
+    model = Room
+
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        rooms = Room.objects.all().filter(user=self.request.user)
+        total_price_list = []
+        for room in rooms:
+            price = room.price_per_night
+            first_date = room.reservation.arrival_date
+            second_date = room.reservation.departure_date
+            days = (second_date - first_date).days
+            total = days * price
+            total_price_list.append([room.room_number, total])
+        context['rooms'] = rooms
+        print(total_price_list)
+        context['total_price_list'] = total_price_list
+        return context
