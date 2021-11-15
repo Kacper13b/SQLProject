@@ -135,14 +135,15 @@ class MyReservationsView(ListView):
         rooms = Room.objects.all().filter(user=self.request.user)
         total_price_list = []
         for room in rooms:
-            price = room.price_per_night
-            restaurant = room.reservation.bill.restauration_bill
-            bar = room.reservation.bill.bar_bill
-            first_date = room.reservation.arrival_date
-            second_date = room.reservation.departure_date
-            days = (second_date - first_date).days
-            total = (days * price) + restaurant + bar
-            total_price_list.append([room.room_number, total])
+            if room.reservation.bill != None:
+                price = room.price_per_night
+                restaurant = room.reservation.bill.restauration_bill
+                bar = room.reservation.bill.bar_bill
+                first_date = room.reservation.arrival_date
+                second_date = room.reservation.departure_date
+                days = (second_date - first_date).days
+                total = (days * price) + restaurant + bar
+                total_price_list.append([room.room_number, total])
         context['rooms'] = rooms
         print(total_price_list)
         context['total_price_list'] = total_price_list
