@@ -18,7 +18,7 @@ class Bill(models.Model):
 
 
 class RoomReservation(models.Model):
-    bill = models.OneToOneField(Bill, on_delete=models.CASCADE)
+    bill = models.OneToOneField(Bill, on_delete=models.CASCADE, null=True)
     arrival_date = models.DateTimeField(blank=False)
     departure_date = models.DateTimeField(blank=False)
     number_of_adults = models.IntegerField(blank=False)
