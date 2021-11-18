@@ -86,7 +86,7 @@ class Employee(models.Model):
     first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=100, blank=False)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    salary = models.FloatField(blank=False)
+    salary = models.DecimalField(blank=False, max_digits=5, decimal_places=2)
     date_of_employment = models.DateTimeField(auto_now_add=True, blank=False)
 
     def __str__(self):

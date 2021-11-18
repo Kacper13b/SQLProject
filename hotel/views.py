@@ -148,3 +148,16 @@ class MyReservationsView(ListView):
         print(total_price_list)
         context['total_price_list'] = total_price_list
         return context
+
+
+def search_hotel(request):
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        hotels = Hotel.objects.filter(hotel_name__contains=searched)
+        return render(request, 'hotel/search_hotel.html', {'searched': searched, 'hotels': hotels})
+
+# def search_room(request):
+#     if request.method == 'POST':
+#         searched = request.POST['searched-room']
+#         rooms = Room.objects.filter(get_room_type_display__contains=searched)
+#         return render(request, 'hotel/search_room.html', {'searched': searched, 'rooms': rooms})

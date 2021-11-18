@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Hotel, Room, Bar, Restaurant, Team, Employee
+import decimal
 
 class HotelAdmin(admin.ModelAdmin):
     list_display = ('id', 'hotel_name', 'stars','country')
@@ -19,7 +20,16 @@ class TeamAdmin(admin.ModelAdmin):
     pass
 
 class EmployeeAdmin(admin.ModelAdmin):
-    pass
+    actions = ['update_status']
+
+    def update_status(self, request, queryset):
+        obj = queryset.all()
+        print(obj)
+        for i in obj:
+            i.salary *= decimal.Decimal(1.1)
+            i.save()
+
+    update_status.short_description = "Raise salary by 10 percent"
 
 admin.site.register(Hotel,HotelAdmin)
 admin.site.register(Room,RoomAdmin)

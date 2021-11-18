@@ -41,9 +41,10 @@
                     Hotel Booking App
                 </div>
                 <ul class="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
+                    {% if request.get_full_path == '/' %}
                     <li>
                         <div class="pt-2 relative mx-auto text-gray-600">
-                            <form class="d-flex" method=POST action="{% url 'hotel:index' %}">
+                            <form class="d-flex" method=POST action="{% url 'hotel:search_hotel' %}">
                                 {% csrf_token %}
                         
                                 <input class="form-control me-2" type="search" placeholder="Search Hotels" aria-label="Search" name="searched">
@@ -51,6 +52,7 @@
                               </form>
                         </div>
                     </li>
+                    {% endif %}
                     {% if request.user.is_authenticated %}
                     <li>
                         <a href="#" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
