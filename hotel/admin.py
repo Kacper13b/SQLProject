@@ -20,16 +20,24 @@ class TeamAdmin(admin.ModelAdmin):
     pass
 
 class EmployeeAdmin(admin.ModelAdmin):
-    actions = ['update_status']
+    actions = ['update_status_raise', 'update_status_decrease']
 
-    def update_status(self, request, queryset):
+    def update_status_raise(self, request, queryset):
         obj = queryset.all()
         print(obj)
         for i in obj:
             i.salary *= decimal.Decimal(1.1)
             i.save()
 
-    update_status.short_description = "Raise salary by 10 percent"
+    def update_status_decrease(self, request, queryset):
+        obj = queryset.all()
+        print(obj)
+        for i in obj:
+            i.salary *= decimal.Decimal(0.9)
+            i.save()
+
+    update_status_raise.short_description = "Raise salary by 10 percent"
+    update_status_decrease.short_description = "Decrease salary by 10 percent"
 
 admin.site.register(Hotel,HotelAdmin)
 admin.site.register(Room,RoomAdmin)
