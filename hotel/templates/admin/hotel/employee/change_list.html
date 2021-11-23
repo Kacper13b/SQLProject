@@ -19,7 +19,8 @@
       });
 
       chartData.forEach((d) => {
-        teams.push(d.team)
+        var tmp = "Team No. " + d.team
+        teams.push(tmp)
       });
     
       // Render the chart
@@ -29,7 +30,7 @@
             labels: teams,
             datasets: [
             {
-              label: 'total salary in a team',
+              label: 'Average salary in a team',
               data: chartData,
               backgroundColor: 'rgba(220,20,20,0.5)',
             },

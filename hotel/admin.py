@@ -4,7 +4,7 @@ from .models import Hotel, Room, Bar, Restaurant, Team, Employee
 import decimal
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count
-from django.db.models import Sum
+from django.db.models import Sum, Avg
 
 
 class HotelAdmin(admin.ModelAdmin):
@@ -48,7 +48,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         chart_data = (
             Employee.objects.values('team')
             .order_by('team')
-            .annotate(y=Sum('salary'))
+            .annotate(y=Avg('salary'))
         )
 
         print(Employee.objects.values('team').order_by('team').annotate(total_price=Sum('salary')))
