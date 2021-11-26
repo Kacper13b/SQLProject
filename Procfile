@@ -1,1 +1,3 @@
-web: gunicorn SQLProject.wsgi --log-file -
+web: gunicorn SQLProject.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
