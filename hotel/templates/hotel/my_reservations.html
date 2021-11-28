@@ -6,6 +6,7 @@
 {% block body %}
     {% if user.is_authenticated %}
         {% csrf_token %}
+            {% if room.exists %}
             {% for room in rooms %}
             {% if room.reservation.bill != None %}
             <section class="text-blueGray-700 bg-white mt-20">
@@ -40,6 +41,7 @@
             </section>
             {%endif%}
             {% endfor %}
+            {% endif %}
 
     {% endif %}
 {% endblock %}
