@@ -28,7 +28,7 @@ class HomePage(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        hotels = Hotel.objects.all().order_by('-id')[0:30]
+        hotels = Hotel.objects.all().order_by('id')
         context['hotels'] = hotels
         return context
 

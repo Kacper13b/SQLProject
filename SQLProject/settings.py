@@ -26,9 +26,9 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+4=2b(z21*tjpgiezf@mp*=jvtcrj+q4kw*h@2#3my7$7(03@5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['kacperb-hotelbookingapp.herokuapp.com']
+ALLOWED_HOSTS = ['kb-hotelapp.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
