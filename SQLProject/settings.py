@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-SECRET_KEY = env('SECRET_KEY', default='+4=2b(z21*tjpgiezf@mp*=jvtcrj+q4kw*h@2#3my7$7(03@5')
+SECRET_KEY = '+4=2b(z21*tjpgiezf@mp*=jvtcrj+q4kw*h@2#3my7$7(03@5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -84,16 +84,23 @@ WSGI_APPLICATION = 'SQLProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
-        'NAME': env('DB_NAME', default='projekt'),
-        'USER': env('DB_USER', default='admin'),
-        'PASSWORD': env('DB_PASSWORD', default='Podlesie13b!'),
-        'HOST': env('DB_HOST', default='localhost'),
-        'PORT': env('DB_PORT', default='5433'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'projekt',
+        'USER': 'admin',
+        'PASSWORD': 'Podlesie13b!',
+        'HOST': 'localhost',
+        'PORT': '5433',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'db.sqlite3',
+#     }
+# }
 
-CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS").split(" ")
+# Password validation
+# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
