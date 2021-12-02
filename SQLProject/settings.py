@@ -12,13 +12,18 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 from pathlib import Path
+import environ
+
+env = environ.Env()
+
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-SECRET_KEY = '+4=2b(z21*tjpgiezf@mp*=jvtcrj+q4kw*h@2#3my7$7(03@5'
+SECRET_KEY = env('SECRET_KEY', default='+4=2b(z21*tjpgiezf@mp*=jvtcrj+q4kw*h@2#3my7$7(03@5')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -58,7 +63,7 @@ ROOT_URLCONF = 'SQLProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(PROJECT_DIR, 'SQLproject/templates')],
+        'DIRS': [os.path.join(PROJECT_DIR, 'SQLProject/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,25 +82,18 @@ WSGI_APPLICATION = 'SQLProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'projekt',
-#         'USER': 'admin',
-#         'PASSWORD': 'Podlesie13b!',
-#         'HOST': 'localhost',
-#         'PORT': '5433',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+        'NAME': env('DB_NAME', default='projekt'),
+        'USER': env('DB_USER', default='admin'),
+        'PASSWORD': env('DB_PASSWORD', default='Podlesie13b!'),
+        'HOST': env('DB_HOST', default='localhost'),
+        'PORT': env('DB_PORT', default='5433'),
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
+CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS").split(" ")
 
 AUTH_PASSWORD_VALIDATORS = [
     {
